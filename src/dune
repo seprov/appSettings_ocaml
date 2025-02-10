@@ -1,0 +1,4 @@
+(library
+ (public_name appSettings_ocaml)
+ (name appSettings_ocaml)
+ (libraries decoders containers yojson))
