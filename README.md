@@ -1,5 +1,11 @@
 # appSettings_ocaml
 
+## Idea
+
+This is roughly inspired by [Microsoft's configuration approach](https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration).
+
+## Usage
+
 Example code:
 
 ```ocaml
