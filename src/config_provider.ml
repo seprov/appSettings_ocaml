@@ -16,14 +16,11 @@ let read_file filename =
     close_in_noerr ic;
     raise e
 
-type config_file = { name : string; body : string }
-
 let get_config_files (paths : string list) =
   paths
   |> List.map (fun name ->
          let file_path = Filename.concat config_dir_path name in
-         let body = file_path |> read_file |> String.concat "\n" in
-         { name; body })
+         file_path |> read_file |> String.concat "\n")
 
 let merge_jsons jsons =
   let rec aux rest wip =
@@ -44,7 +41,7 @@ let merge_jsons jsons =
 module Make (D : Decoders.Decode.S) = struct
   let get_config ~decoder paths =
     paths |> get_config_files
-    |> List.map (fun (x : config_file) -> x.body |> Yojson.Safe.from_string)
+    |> List.map Yojson.Safe.from_string
     |> merge_jsons |> Yojson.Safe.pretty_to_string |> D.decode_string decoder
     |> CCResult.map_err D.string_of_error
     |> CCResult.get_or_failwith
