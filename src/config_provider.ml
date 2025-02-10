@@ -22,7 +22,6 @@ let get_config_files (paths : string list) =
   paths
   |> List.map (fun name ->
          let file_path = Filename.concat config_dir_path name in
-         print_endline file_path;
          let body = file_path |> read_file |> String.concat "\n" in
          { name; body })
 
