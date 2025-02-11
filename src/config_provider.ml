@@ -1,26 +1,10 @@
 let config_dir_path = Sys.getcwd ()
 
-let read_file filename =
-  let ic = open_in filename in
-  try
-    let rec read_lines acc =
-      try
-        let line = input_line ic in
-        read_lines (line :: acc)
-      with End_of_file ->
-        close_in ic;
-        List.rev acc
-    in
-    read_lines []
-  with e ->
-    close_in_noerr ic;
-    raise e
-
 let get_config_files (paths : string list) =
   paths
   |> List.map (fun name ->
          let file_path = Filename.concat config_dir_path name in
-         file_path |> read_file |> String.concat "\n")
+         file_path |> Fun.flip In_channel.with_open_text In_channel.input_all)
 
 let merge_jsons jsons =
   let rec aux rest wip =
