@@ -13,7 +13,7 @@ type app_config = { foo : string }
 
 module D = Decoders_yojson.Safe.Decode
 
-let main_config_decoder : app_config D.decoder =
+let app_config_decoder : app_config D.decoder =
   let open D in
   let* foo = field "foo" string in
   succeed { foo }
@@ -28,6 +28,6 @@ let () =
       ]
   in
   let module C = AppSettings_ocaml.Config_provider.Make (D) in
-  let config = C.(get_config paths ~decoder:main_config_decoder) in
+  let config = C.(get_config paths ~decoder:app_config_decoder) in
   ...
 ```
